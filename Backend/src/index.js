@@ -10,8 +10,8 @@ import connectDB from "./db/index.js"
 const port = process.env.PORT || 3000;
 connectDB()
 .then(()=>{
-  app.listen(port , ()=>{
-    console.log(`Server is running at http://localhost:${port}`);
+  app.listen(port,"0.0.0.0", ()=>{
+    console.log(`Server is running at git ${port}`);
   })
 })
 .catch((error)=>{
