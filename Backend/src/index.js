@@ -7,7 +7,7 @@ import connectDB from "./db/index.js"
 //   path:'./.env'
 // })
 
-// const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 connectDB()
 .then(()=>{
   app.listen(port , ()=>{
