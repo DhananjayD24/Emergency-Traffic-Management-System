@@ -25,7 +25,7 @@ import policeRouter from "./routes/Traffic_police.routes.js"
 
 //routes declaration
 //app.use("/api/v1/police",policeRouter)  keeping it simple to match with frontend
-app.use("",policeRouter)
+app.use("/api",policeRouter)
 app.use(errorHandler)
 
 export {app}
