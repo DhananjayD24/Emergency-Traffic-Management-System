@@ -1,7 +1,8 @@
 import cors from "cors";
 
+const frontend_link = process.env.FRONTEND_URL
 const corsOptions = {
-  origin: "http://localhost:5173", // frontend URL
+  origin: `${frontend_link}`, // frontend URL
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
