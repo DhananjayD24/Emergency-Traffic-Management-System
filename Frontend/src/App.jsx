@@ -10,7 +10,7 @@ const App = () => {
   const [role, setRole] = useState(null);
   const [userData, setUserData] = useState(null);
   const [token, setToken] = useState(null);
-  const backend_link = meta.process.env.BACKEND_URL
+  const backend_link = import.meta.env.BACKEND_URL
 
   // ✅ Load saved login on refresh
   useEffect(() => {

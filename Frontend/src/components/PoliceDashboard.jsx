@@ -31,7 +31,7 @@ const PoliceDashboard = ({ policeName = "Officer", username, userProfileUrl, onL
   const [markerPosition, setMarkerPosition] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const profileMenuRef = useRef(null);
-  const backend_link = meta.process.env.BACKEND_URL
+  const backend_link = import.meta.env.BACKEND_URL
 
   const handleLogoutSubmit = (e) => {
     e.preventDefault();
