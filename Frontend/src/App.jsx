@@ -9,8 +9,8 @@ import HomePage from './Sections/HomePage'
 const App = () => {
   const [role, setRole] = useState(null);
   const [userData, setUserData] = useState(null);
-  
   const [token, setToken] = useState(null);
+  const backend_link = meta.process.env.BACKEND_URL
 
   // ✅ Load saved login on refresh
   useEffect(() => {
@@ -25,7 +25,7 @@ const App = () => {
 
 const handleLogin = async (selectedRole, credentials) => {
   try {
-    const response = await fetch("http://localhost:5000/login", {
+    const response = await fetch(`${backend_link}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...credentials, role: selectedRole }),
@@ -66,7 +66,7 @@ const handleLogin = async (selectedRole, credentials) => {
 
   const handleSignUp = async (selectedRole, details) => {
     try {
-      const response = await fetch('http://localhost:5000/signup', {
+      const response = await fetch(`${backend_link}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...details, role: selectedRole }),

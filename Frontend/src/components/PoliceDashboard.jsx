@@ -31,6 +31,7 @@ const PoliceDashboard = ({ policeName = "Officer", username, userProfileUrl, onL
   const [markerPosition, setMarkerPosition] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const profileMenuRef = useRef(null);
+  const backend_link = meta.process.env.BACKEND_URL
 
   const handleLogoutSubmit = (e) => {
     e.preventDefault();
@@ -51,7 +52,7 @@ const PoliceDashboard = ({ policeName = "Officer", username, userProfileUrl, onL
     const fetchNotifications = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/officers/${username}/notifications`
+          `${backend_link}/officers/${username}/notifications`
         );
         setNotifications(res?.data?.data || []);
       } catch (error) {
@@ -96,7 +97,7 @@ const PoliceDashboard = ({ policeName = "Officer", username, userProfileUrl, onL
 
     const fetchOfficerData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/officers/${username}`);
+        const response = await fetch(`${backend_link}/officers/${username}`);
         const data = await response.json();
         console.log("Fetched officer data:", data);
         if (data?.duty && data?.onDuty) {
@@ -154,7 +155,7 @@ const PoliceDashboard = ({ policeName = "Officer", username, userProfileUrl, onL
     const now = new Date().toISOString();
 
     try {
-      const response = await fetch(`http://localhost:5000/officers/${username}`, {
+      const response = await fetch(`${backend_link}/officers/${username}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -182,7 +183,7 @@ const PoliceDashboard = ({ policeName = "Officer", username, userProfileUrl, onL
   const handleGoOffDuty = async () => {
     if (!username) return;
     try {
-      const response = await fetch(`http://localhost:5000/officers/${username}`, {
+      const response = await fetch(`${backend_link}/officers/${username}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -206,7 +207,7 @@ const PoliceDashboard = ({ policeName = "Officer", username, userProfileUrl, onL
     if (!username) return;
     try {
       const res = await axios.delete(
-        `http://localhost:5000/officers/${username}/notifications`
+        `${backend_link}/officers/${username}/notifications`
       );
       if (res?.data?.success) setNotifications([]);
       else console.error("Failed to clear notifications from server");
@@ -216,255 +217,7 @@ const PoliceDashboard = ({ policeName = "Officer", username, userProfileUrl, onL
   };
 
 
-  // return (
-  //   <div
-  //     className={`${
-  //       darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
-  //     } min-h-screen p-6 transition-colors duration-500`}
-  //   >
-  //     {/* Header */}
-  //     <header className="flex justify-between items-center mb-10">
-  //       <h1 className="text-3xl font-bold text-green-700 dark:text-green-400">
-  //         Traffic Police Dashboard
-  //       </h1>
-  //       <div className="relative" ref={profileMenuRef}>
-  //         <button
-  //           onClick={() => setShowProfileMenu((prev) => !prev)}
-  //           className="flex items-center space-x-3 focus:outline-none"
-  //         >
-  //           <div className="text-right hidden sm:block">
-  //             <p className="font-semibold">{policeName}</p>
-  //             <p className="text-sm text-gray-500 dark:text-gray-300">
-  //               Traffic Police
-  //             </p>
-  //           </div>
-  //           <img
-  //             src={
-  //               profilePic ||
-  //               "https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/"
-  //             }
-  //             alt="Profile"
-  //             className="w-10 h-10 rounded-full border-2 border-green-600 dark:border-green-400"
-  //           />
-  //         </button>
-
-  //         {showProfileMenu && (
-  //           <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-20">
-  //             <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-  //               <p className="font-semibold text-gray-900 dark:text-gray-100">
-  //                 {policeName}
-  //               </p>
-  //               <p className="text-sm text-gray-500 dark:text-gray-400">
-  //                 Traffic Police
-  //               </p>
-  //             </div>
-  //             <ul className="py-1">
-  //               <li>
-  //                 <button className="w-full text-left px-4 py-2 hover:bg-green-100 dark:hover:bg-green-700 text-green-700 dark:text-green-300">
-  //                   Change Profile Picture
-  //                 </button>
-  //               </li>
-  //               <li>
-  //                 <button className="w-full text-left px-4 py-2 hover:bg-green-100 dark:hover:bg-green-700 text-green-700 dark:text-green-300">
-  //                   Set New Password
-  //                 </button>
-  //               </li>
-  //               <li>
-  //                 <button
-  //                   onClick={() => setDarkMode((prev) => !prev)}
-  //                   className="w-full text-left px-4 py-2 hover:bg-green-100 dark:hover:bg-green-700 text-green-700 dark:text-green-300"
-  //                 >
-  //                   {darkMode ? "Light Mode" : "Dark Mode"}
-  //                 </button>
-  //               </li>
-  //               <li>
-  //                 <button className="w-full text-left px-4 py-2 hover:bg-red-100 dark:hover:bg-red-700 text-red-600 dark:text-red-400">
-  //                   Delete Account
-  //                 </button>
-  //               </li>
-  //               <li>
-  //                 <button
-  //                   onClick={handleLogoutSubmit}
-  //                   className="w-full text-left px-4 py-2 hover:bg-green-100 dark:hover:bg-green-700 text-green-700 dark:text-green-300"
-  //                 >
-  //                   Log Out
-  //                 </button>
-  //               </li>
-  //             </ul>
-  //           </div>
-  //         )}
-  //       </div>
-  //     </header>
-
-  //     {/* Notifications */}
-  //     <section
-  //       className={`w-full max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-5xl mx-auto mt-10 p-6 rounded-lg shadow ${
-  //         darkMode ? "bg-gray-800" : "bg-white"
-  //       } transition-colors duration-500`}
-  //     >
-  //       <div className="flex justify-between items-center mb-4">
-  //         <h2 className="text-xl font-semibold text-green-700 dark:text-green-400">
-  //           Notifications
-  //         </h2>
-  //         <button
-  //           onClick={clearNotifications}
-  //           disabled={notifications.length === 0}
-  //           className="text-sm text-red-600 hover:underline disabled:opacity-50"
-  //         >
-  //           Read and Clear Notifications
-  //         </button>
-  //       </div>
-  //       {notifications.length === 0 ? (
-  //         <p className="text-gray-500 dark:text-gray-400">
-  //           No new notifications.
-  //         </p>
-  //       ) : (
-  //         <ul className="space-y-3 max-h-48 overflow-y-auto">
-  //           {notifications.map(({ message, date }, index) => (
-  //             <li
-  //               key={index}
-  //               className={`p-3 rounded border ${
-  //                 darkMode
-  //                   ? "bg-gray-700 border-gray-600 text-gray-200"
-  //                   : "bg-gray-50 border-gray-300 text-gray-800"
-  //               }`}
-  //             >
-  //               <div className="whitespace-pre-wrap">
-  //                 {message.split("\n").map((line, index) => {
-  //                   if (line.startsWith("🚨 Ambulance Alert")) {
-  //                     return (
-  //                       <p key={index}>
-  //                         <strong>{line}</strong>
-  //                         <br />
-  //                       </p>
-  //                     );
-  //                   } else if (line.startsWith("Coming From:")) {
-  //                     return (
-  //                       <div key={index}>
-  //                         <br />
-  //                         <p>
-  //                           <strong>Ambulace Coming From:</strong>{" "}
-  //                           {line.replace("Coming From:", "").trim()}
-  //                         </p>
-  //                       </div>
-  //                     );
-  //                   } else if (line.startsWith("To:")) {
-  //                     return (
-  //                       <div key={index}>
-  //                         <p>
-  //                           <strong>Going Towards:</strong>{" "}
-  //                           {line.replace("To:", "").trim()}
-  //                         </p>
-  //                         <br />
-  //                       </div>
-  //                     );
-  //                   } else {
-  //                     return <p key={index}>{line}</p>;
-  //                   }
-  //                 })}
-  //               </div>
-
-  //               <p className="text-2xs text-gray-400 mt-1">
-  //                 {new Date(date).toLocaleString()}
-  //               </p>
-  //             </li>
-  //           ))}
-  //         </ul>
-  //       )}
-  //     </section>
-
-  //     {/* Duty Location Form */}
-  //     <form
-  //       onSubmit={handleSubmit}
-  //       className={`w-full max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-5xl mx-auto p-6 rounded-lg shadow ${
-  //         darkMode ? "bg-gray-800" : "bg-white"
-  //       } transition-colors duration-500 mt-10`} /* Added margin top for spacing */
-  //     >
-  //       <h2 className="text-xl font-semibold mb-4 text-green-700 dark:text-green-400">
-  //         Update Duty Location
-  //       </h2>
-
-  //       <div className="relative mb-3">
-  //         <input
-  //           type="text"
-  //           placeholder="Search location"
-  //           value={location}
-  //           onChange={handleSearch}
-  //           className="w-full border px-4 py-2 rounded"
-  //         />
-  //         {suggestions.length > 0 && (
-  //           <ul className="absolute z-10 bg-white dark:bg-gray-800 border w-full mt-1 rounded shadow max-h-48 overflow-y-auto">
-  //             {suggestions.map((place, idx) => (
-  //               <li
-  //                 key={idx}
-  //                 onClick={() => handleSelectSuggestion(place)}
-  //                 className="px-4 py-2 cursor-pointer hover:bg-green-100 dark:hover:bg-green-700"
-  //               >
-  //                 {place.display_name}
-  //               </li>
-  //             ))}
-  //           </ul>
-  //         )}
-  //       </div>
-
-  //       <MapContainer
-  //         center={mapPosition}
-  //         zoom={13}
-  //         scrollWheelZoom={true}
-  //         className="h-64 rounded mb-4"
-  //       >
-  //         <RecenterMap position={mapPosition} />
-  //         <TileLayer
-  //           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  //           attribution="&copy; OpenStreetMap contributors"
-  //         />
-  //         {markerPosition && <Marker position={markerPosition} />}
-  //         <MapClickHandler />
-  //       </MapContainer>
-
-  //       <button
-  //         type="submit"
-  //         className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded transition duration-200 disabled:opacity-50"
-  //         disabled={!locationCoords}
-  //       >
-  //         Update
-  //       </button>
-
-  //       {submittedLocation && (
-  //         <div
-  //           className={`mt-6 p-4 rounded border ${
-  //             darkMode
-  //               ? "bg-green-900 border-green-700 text-green-200"
-  //               : "bg-green-50 border-green-400 text-green-800"
-  //           }`}
-  //         >
-  //           <p>
-  //             ✅ <strong>You are now on duty at:</strong> {submittedLocation}{" "}
-  //             <br />
-  //             <span className="font-semibold">On Duty from:</span>{" "}
-  //             {dutyStartTime
-  //               ? new Date(dutyStartTime).toLocaleString("en-GB", {
-  //                   hour: "numeric",
-  //                   minute: "2-digit",
-  //                   hour12: true,
-  //                   day: "2-digit",
-  //                   month: "short",
-  //                   year: "numeric",
-  //                 })
-  //               : "N/A"}
-  //           </p>
-  //           <button
-  //             onClick={handleGoOffDuty}
-  //             type="button"
-  //             className="mt-3 inline-block bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-  //           >
-  //             Go Off Duty
-  //           </button>
-  //         </div>
-  //       )}
-  //     </form>
-  //   </div>
-  // );
+  
   return (
     <div
       className={`${

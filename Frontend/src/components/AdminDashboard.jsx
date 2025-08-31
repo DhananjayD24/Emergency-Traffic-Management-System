@@ -27,6 +27,7 @@ const AdminDashboard = ({onLogout}) => {
   const [RouteGenerated, setRouteGenerated] = useState(false);
   const [loadingRoute, setLoadingRoute] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const backend_link = import.meta.env.BACKEND_URL
 
   const isNearby = (officerCoords, pathCoords, radiusMeters = 200) => {
     const toRad = (deg) => (deg * Math.PI) / 180;
@@ -53,7 +54,7 @@ const AdminDashboard = ({onLogout}) => {
 
   const findNearbyOfficers = async (pathCoords) => {
     try {
-      const res = await axios.get("http://localhost:5000/officers");
+      const res = await axios.get(`${backend_link}/officers`);
       const officers = res.data.data;
       console.log("All officers from backend:", officers);
 
@@ -125,7 +126,7 @@ const AdminDashboard = ({onLogout}) => {
   useEffect(() => {
     const fetchOfficers = async () => {
       try {
-        const res = await fetch("http://localhost:5000/officers");
+        const res = await fetch(`${backend_link}/officers`);
         const json = await res.json();
       const data = json.data || [];
         
@@ -155,7 +156,7 @@ const AdminDashboard = ({onLogout}) => {
   const handleOffDuty = async (index) => {
     const officer = trafficPolice[index];
     try {
-      const res = await fetch(`http://localhost:5000/officers/${officer.username}`, {
+      const res = await fetch(`${backend_link}/officers/${officer.username}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -703,7 +704,7 @@ const AdminDashboard = ({onLogout}) => {
                       onClick={async () => {
                         try {
                           await axios.post(
-                            "http://localhost:5000/api/notify-officers",
+                            `${backend_link}/api/notify-officers`,
                             {
                               officerIds: nearbyOfficers.map((o) => o._id),
                               startAddress,
