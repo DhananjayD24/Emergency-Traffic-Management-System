@@ -18,6 +18,8 @@ import serverless from "serverless-http"
 //   console.log("MONGO DB connection failed", error);
 // })
 
+console.log("Working");
+
 try {
   await connectDB();
   console.log("MONGO DB connected");

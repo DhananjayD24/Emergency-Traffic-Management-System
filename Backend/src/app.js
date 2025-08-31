@@ -22,6 +22,10 @@ app.use(cookieParser())
 //routes import
 import policeRouter from "./routes/Traffic_police.routes.js"
 
+app.get("/api/test", (req, res) => {
+  console.log("Test route hit!");
+  res.json({ msg: "Vercel serverless working!" });
+});
 
 //routes declaration
 //app.use("/api/v1/police",policeRouter)  keeping it simple to match with frontend
