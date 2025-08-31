@@ -28,4 +28,4 @@ import policeRouter from "./routes/Traffic_police.routes.js"
 app.use("/api",policeRouter)
 app.use(errorHandler)
 
-export {app}
+export {app};
