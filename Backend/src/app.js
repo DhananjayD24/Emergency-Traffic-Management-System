@@ -19,17 +19,17 @@ app.use(express.urlencoded({extended:true , limit: "16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
 
+app.get("/api/test", (req, res) => {
+  console.log("Test route hit!");
+  res.json({ msg: "server working!" });
+});
+
 //routes import
 import policeRouter from "./routes/Traffic_police.routes.js"
 
-app.get("/api/test", (req, res) => {
-  console.log("Test route hit!");
-  res.json({ msg: "Vercel serverless working!" });
-});
-
 //routes declaration
 //app.use("/api/v1/police",policeRouter)  keeping it simple to match with frontend
-app.use("/api",policeRouter)
+app.use("",policeRouter)
 app.use(errorHandler)
 
 export {app};
